@@ -1,0 +1,106 @@
+/* ================= ROOT LAYOUT ================= */
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  scroll-behavior: smooth;
+}
+
+/* ================= LOGO EFFECTS ================= */
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter, transform;
+  transition: filter 300ms ease, transform 300ms ease;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em rgba(100, 108, 255, 0.7));
+  transform: translateY(-6px);
+}
+
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em rgba(97, 218, 251, 0.8));
+}
+
+/* ================= FLYING / FLOATING ANIMATION ================= */
+@keyframes fly {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-18px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.animate-fly {
+  animation: fly 6s ease-in-out infinite;
+}
+
+/* ================= SPIN ANIMATION ================= */
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+/* ================= CARD (GLOBAL) ================= */
+.card {
+  padding: 2em;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  transition: transform 300ms ease, box-shadow 300ms ease;
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+}
+
+/* ================= TEXT HELPERS ================= */
+.read-the-docs {
+  color: #9ca3af;
+  font-size: 0.95rem;
+  margin-top: 1rem;
+}
+
+/* ================= GLOBAL LINKS ================= */
+a {
+  text-decoration: none;
+  transition: color 250ms ease, transform 250ms ease;
+}
+
+a:hover {
+  transform: translateY(-2px);
+}
+
+/* ================= GLOBAL SMOOTH ANIMATION ================= */
+.fade-in {
+  animation: fadeIn 0.8s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
