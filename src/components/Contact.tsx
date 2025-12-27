@@ -14,10 +14,33 @@ const Contact = () => {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    toast.success("Message sent successfully! I'll get back to you soon.");
-    setFormData({ name: "", email: "", message: "" });
+    setLoading(true);
+
+    try {
+      const response = await fetch("https://formspree.io/f/xzdbeynn", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        toast.success("Message sent successfully! I'll get back to you soon.");
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        toast.error("Failed to send message. Please try again.");
+      }
+    } catch (error) {
+      toast.error("Network error. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const contactInfo = [
@@ -64,7 +87,7 @@ const Contact = () => {
       className="relative py-20 overflow-hidden bg-cover bg-center"
       style={{ backgroundImage: `url(${contactBg})` }}
     >
-      {/* WHITE OVERLAY */}
+      {/* White overlay */}
       <div className="absolute inset-0 bg-white/90"></div>
 
       {/* Decorative blobs */}
@@ -100,19 +123,10 @@ const Contact = () => {
               {contactInfo.map((info, index) => (
                 <Card
                   key={index}
-                  className="
-                    p-4
-                    bg-card/80 backdrop-blur-sm
-                    border-2 border-primary/40
-                    hover:border-primary
-                    transition-all duration-300
-                    hover:-translate-x-2
-                  "
+                  className="p-4 bg-card/80 backdrop-blur-sm border-2 border-primary/40 hover:border-primary transition-all duration-300 hover:-translate-x-2"
                 >
                   <div className="flex items-center gap-4">
-                    <div
-                      className={`${info.color} p-3 rounded-lg shrink-0`}
-                    >
+                    <div className={`${info.color} p-3 rounded-lg shrink-0`}>
                       <info.icon className="h-5 w-5 text-white" />
                     </div>
 
@@ -147,15 +161,7 @@ const Contact = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.label}
-                    className={`
-                      p-4 rounded-lg
-                      border-2 border-primary/40
-                      hover:border-primary
-                      transition-all duration-300
-                      hover:scale-110
-                      bg-card/80 backdrop-blur-sm
-                      ${social.color}
-                    `}
+                    className={`p-4 rounded-lg border-2 border-primary/40 hover:border-primary transition-all duration-300 hover:scale-110 bg-card/80 backdrop-blur-sm ${social.color}`}
                   >
                     <social.icon className="h-6 w-6" />
                   </a>
@@ -166,17 +172,10 @@ const Contact = () => {
 
           {/* Contact Form */}
           <Card
-            className="
-              p-8
-              bg-card/80 backdrop-blur-sm
-              border-2 border-primary/40
-              hover:border-primary
-              transition-all
-              animate-fade-in-up
-            "
+            className="p-8 bg-card/80 backdrop-blur-sm border-2 border-primary/40 hover:border-primary transition-all animate-fade-in-up"
             style={{ animationDelay: "0.2s" }}
           >
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6" noValidate>
               <div>
                 <label className="block text-sm font-semibold mb-2 flex items-center gap-2">
                   <span className="w-1 h-4 bg-primary rounded-full"></span>
@@ -190,7 +189,6 @@ const Contact = () => {
                     setFormData({ ...formData, name: e.target.value })
                   }
                   required
-                  className="border-2 focus:border-primary transition-colors"
                 />
               </div>
 
@@ -207,7 +205,6 @@ const Contact = () => {
                     setFormData({ ...formData, email: e.target.value })
                   }
                   required
-                  className="border-2 focus:border-primary transition-colors"
                 />
               </div>
 
@@ -224,12 +221,17 @@ const Contact = () => {
                     setFormData({ ...formData, message: e.target.value })
                   }
                   required
-                  className="border-2 focus:border-primary resize-none transition-colors"
                 />
               </div>
 
-              <Button type="submit" size="lg" variant="hero" className="w-full shadow-glow group">
-                Send Message
+              <Button
+                type="submit"
+                size="lg"
+                variant="hero"
+                className="w-full shadow-glow group"
+                disabled={loading}
+              >
+                {loading ? "Sending..." : "Send Message"}
                 <Send className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </form>
