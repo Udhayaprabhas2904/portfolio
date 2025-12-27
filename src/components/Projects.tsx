@@ -56,7 +56,7 @@ const Projects = () => {
         "A predictive solution that analyzes environmental and meteorological data to identify fire-prone conditions and support disaster management risk.",
       technologies: ["Python", "Scikit-learn", "Flask"],
       github: "https://github.com/Udhayaprabhas2904/forsestfire",
-      linkedin: "https://www.linkedin.com/in/udhayaprabha-s-039aab26a",
+      linkedin: "https://www.linkedin.com/posts/udhayaprabha-s-039aab26a_machinelearning-datascience-python-activity-7410625828079906816-WtCK?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEIDjG0BSi74DGhDP-rdbCDSLNyXfQBcvCE",
       color: "from-emerald-500 to-green-600",
     },
    
